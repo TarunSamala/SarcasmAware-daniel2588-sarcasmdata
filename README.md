@@ -37,5 +37,4 @@ A comprehensive sarcasm detection framework implementing multiple deep learning 
 ## Installation
 1. Clone repository:
 ```bash
-git clone https://github.com/<your-username>/sarcasm-aware-classification.git
-cd sarcasm-aware-classification
+git clone https://github.com/TarunSamala/SarcasmAware-daniel2588-sarcasmdata.git
