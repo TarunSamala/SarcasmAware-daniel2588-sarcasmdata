@@ -1,0 +1,9 @@
+Classification Report:
+               precision    recall  f1-score   support
+
+Not Sarcastic       0.83      0.83      0.83      3649
+    Sarcastic       0.82      0.82      0.82      3379
+
+     accuracy                           0.83      7028
+    macro avg       0.83      0.83      0.83      7028
+ weighted avg       0.83      0.83      0.83      7028

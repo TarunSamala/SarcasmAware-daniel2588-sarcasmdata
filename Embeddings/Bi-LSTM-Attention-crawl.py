@@ -10,6 +10,8 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from datasets import load_dataset
 import matplotlib.pyplot as plt
+from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
 
 # Configuration
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -18,6 +20,9 @@ VOCAB_SIZE = 20000
 EMBEDDING_DIM = 300
 BATCH_SIZE = 256
 EPOCHS = 30
+RESULTS_DIR = "results"
+
+os.makedirs(RESULTS_DIR, exist_ok=True)
 
 # Load and preprocess data
 dataset = load_dataset("daniel2588/sarcasmdata")
@@ -111,8 +116,9 @@ def build_model():
 callbacks = [
     EarlyStopping(monitor='val_accuracy', patience=7, restore_best_weights=True),
     ReduceLROnPlateau(monitor='val_loss', factor=0.3, patience=3, min_lr=1e-6),
-    ModelCheckpoint('best_model.h5', save_best_only=True, monitor='val_accuracy')
+    ModelCheckpoint(os.path.join(RESULTS_DIR, 'best_model.h5'), save_best_only=True, monitor='val_accuracy')
 ]
+
 
 # Training
 model = build_model()
@@ -150,14 +156,33 @@ def plot_training(history):
     plt.legend()
     
     plt.tight_layout()
-    plt.savefig('training_curves.png', dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(RESULTS_DIR, 'training_curves.png'), dpi=300, bbox_inches='tight')
     plt.close()
 
 plot_training(history)
 
 # Evaluation
-test_loss, test_acc = model.evaluate(X_test, test_labels, verbose=0)
-print(f"\nFinal Test Accuracy: {test_acc:.4f}")
+y_pred = (model.predict(X_test) > 0.5).astype(int)
+
+# Classification Report
+report = classification_report(test_labels, y_pred, target_names=['Not Sarcastic', 'Sarcastic'])
+with open(os.path.join(RESULTS_DIR, 'classification_report.txt'), 'w') as f:
+    f.write("Classification Report:\n")
+    f.write(report)
+
+# Confusion Matrix
+plt.figure(figsize=(8, 6))
+cm = confusion_matrix(test_labels, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+            xticklabels=['Not Sarcastic', 'Sarcastic'],
+            yticklabels=['Not Sarcastic', 'Sarcastic'])
+plt.title('Confusion Matrix')
+plt.ylabel('True Label')
+plt.xlabel('Predicted Label')
+plt.savefig(os.path.join(RESULTS_DIR, 'confusion_matrix.png'), dpi=300, bbox_inches='tight')
+plt.close()
 
 # Save final model
-model.save('final_model.h5')
+model.save(os.path.join(RESULTS_DIR, 'final_model.h5'))
+
+print(f"\nAll results saved to: {os.path.abspath(RESULTS_DIR)}")
