@@ -1,0 +1,9 @@
+Classification Report (DistillBERT):
+               precision    recall  f1-score   support
+
+Not Sarcastic       0.83      0.93      0.88      3649
+    Sarcastic       0.91      0.79      0.85      3379
+
+     accuracy                           0.86      7028
+    macro avg       0.87      0.86      0.86      7028
+ weighted avg       0.87      0.86      0.86      7028
