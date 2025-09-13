@@ -153,7 +153,8 @@ plt.figure(figsize=(8, 6))
 cm = confusion_matrix(test_labels, y_pred)
 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
            xticklabels=['Not Sarcastic', 'Sarcastic'],
-           yticklabels=['Not Sarcastic', 'Sarcastic'])
+           yticklabels=['Not Sarcastic', 'Sarcastic'],
+           annot_kws={"size": 22})
 plt.title('Confusion Matrix')
 plt.ylabel('True Label')
 plt.xlabel('Predicted Label')

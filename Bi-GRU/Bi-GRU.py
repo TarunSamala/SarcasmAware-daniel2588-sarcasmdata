@@ -19,7 +19,7 @@ VOCAB_SIZE = 12000
 EMBEDDING_DIM = 96
 BATCH_SIZE = 128
 EPOCHS = 40
-OUTPUT_DIR = "bigru_arcasm_outputs"
+OUTPUT_DIR = "sarcasm_outputs"
 
 # Create output directory
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -146,13 +146,18 @@ with open(report_path, 'w') as f:
 # Confusion Matrix
 plt.figure(figsize=(8, 6))
 cm = confusion_matrix(test_labels, y_pred)
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
-           xticklabels=['Not Sarcastic', 'Sarcastic'],
-           yticklabels=['Not Sarcastic', 'Sarcastic'])
-plt.title('Confusion Matrix')
-plt.ylabel('True Label')
-plt.xlabel('Predicted Label')
-plt.savefig(os.path.join(OUTPUT_DIR, 'confusion_matrix.png'), dpi=300, bbox_inches='tight')
+sns.heatmap(
+    cm, annot=True, fmt='d', cmap='Blues',
+    xticklabels=['Non-Sarcastic', 'Sarcastic'],
+    yticklabels=['Non-Sarcastic', 'Sarcastic'],
+    annot_kws={"size": 22} 
+)
+plt.title('Confusion Matrix', fontsize=16)
+plt.ylabel('True Label', fontsize=14)
+plt.xlabel('Predicted Label', fontsize=14)
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
+plt.savefig(os.path.join('sarcasm_outputs', 'confusion_matrix.png'), bbox_inches='tight')
 plt.close()
 
 print(f"\nAll outputs saved to: {os.path.abspath(OUTPUT_DIR)}")
