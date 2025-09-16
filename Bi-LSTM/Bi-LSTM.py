@@ -146,9 +146,11 @@ sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
            xticklabels=['Not Sarcastic', 'Sarcastic'],
            yticklabels=['Not Sarcastic', 'Sarcastic'],
            annot_kws={"size": 22})
-plt.title('Confusion Matrix')
-plt.ylabel('True Label')
-plt.xlabel('Predicted Label')
+plt.title('Confusion Matrix', fontsize = 22)
+plt.ylabel('True Label', fontsize = 22)
+plt.xlabel('Predicted Label', fontsize = 22)
+plt.xticks(fontsize=22)
+plt.yticks(fontsize=22)
 plt.savefig(os.path.join(OUTPUT_DIR, 'confusion_matrix.png'), dpi=300, bbox_inches='tight')
 plt.close()
 
